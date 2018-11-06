@@ -40,4 +40,15 @@ public class CountDownScrpt : MonoBehaviour {
     {
         StartTimer = true;
     }
+
+    public void SubFromTimer()
+    {
+        TimerValue -= Time.deltaTime;
+        CountDownSlider.value = TimerValue;
+    }
+
+    public void SetTimer(int Value)
+    {
+        CountDownSlider.value = Value;
+    }
 }

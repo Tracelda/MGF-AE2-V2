@@ -8,8 +8,8 @@ using UnityEngine.SceneManagement;
 public class BalloonScrpt : MonoBehaviour
 {
     private Vector3 mouselocation;
-    public int BalloonsPopped;
-    public int PopTarget;
+    public int Target;
+    public int TimerStartValue;
     public bool GameWon;
     public bool DisableInput;
     public CountDownScrpt CountDownScrpt;
@@ -17,8 +17,7 @@ public class BalloonScrpt : MonoBehaviour
     void Start()
     {
         // initilizing values
-        BalloonsPopped = 0;
-        PopTarget = 4;
+        Target = 4;
         GameWon = false;
         DisableInput = false;
     }
@@ -29,6 +28,7 @@ public class BalloonScrpt : MonoBehaviour
 #if UNITY_EDITOR
         if (DisableInput == false)
         {
+            SetTimer(TimerStartValue);
             StartTimer();
 
             if (Input.GetMouseButtonDown(0))
@@ -39,15 +39,13 @@ public class BalloonScrpt : MonoBehaviour
                 Vector2 rayPos = new Vector2(Camera.main.ScreenToWorldPoint(Input.mousePosition).x, Camera.main.ScreenToWorldPoint(Input.mousePosition).y);
                 RaycastHit2D hit = Physics2D.Raycast(rayPos, Vector2.zero, 100f);
 
-                if (hit && hit.collider.CompareTag("Balloon") == true) // Checking tag of hit sprite
+                if (hit && hit.collider.CompareTag("Spam") == true) // Checking tag of hit sprite
                 {
-                    Debug.Log("Balloon Hit");
-                    Destroy(hit.transform.gameObject); // Destroy gameobject that is hit by raycast
-                    BalloonsPopped++;
+                    Debug.Log("Spam Hit");
                 }
             }
 
-            if (BalloonsPopped >= PopTarget)
+            if (CountDownScrpt.CountDownSlider.value >= Target)
             {
                 GameWon = true;
                 DisableInput = true;
@@ -116,5 +114,10 @@ public class BalloonScrpt : MonoBehaviour
     public void StartTimer()
     {
         CountDownScrpt.StartT();
+    }
+
+    public void SetTimer(int StartValue)
+    {
+        CountDownScrpt.SetTimer(StartValue);
     }
 }
